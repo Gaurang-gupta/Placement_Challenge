@@ -1,0 +1,32 @@
+// Recursive approach
+class Solution {
+    public int maxScore(int[] cardPoints, int k) {
+        int ans = helper(0, cardPoints.length-1, k, 0, cardPoints);
+        return ans;
+    }
+    
+    public int helper(int start, int end, int k, int ans, int[] a){
+        if(k==0 || start > end) return ans;
+        int left = helper(start + 1, end, k - 1, a[start], a);
+        int right = helper(start, end - 1, k - 1, a[end], a);
+        ans += Math.max(left, right);
+        return ans;
+    }
+}
+
+// Efficient approach
+class Solution {
+    public int maxScore(int[] cardPoints, int k) {
+        int total = 0,ans = 0,win = 0,start = 0;;
+        for(int i: cardPoints) total += i;
+        for(int i=start;i<cardPoints.length-k;i++) win+=cardPoints[i];
+        for(int i=cardPoints.length-k; i< cardPoints.length;i++){
+            ans = Math.max(ans, total - win);
+            win -= cardPoints[start];
+            win += cardPoints[i];
+            start++;
+        }
+        ans = Math.max(ans, total - win);
+        return ans;
+    }
+}
