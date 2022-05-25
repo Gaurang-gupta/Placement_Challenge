@@ -1,0 +1,22 @@
+class Solution {
+    public boolean canJump(int[] nums) {
+        boolean[] cycle = new boolean[nums.length];
+        boolean ans = false;
+        int start = 0;
+        ans = dfs(cycle,start,nums);
+        return ans;
+    }
+    
+    public boolean dfs(boolean[] cycle,int start,int[] arr){
+        if(start < 0 || start > arr.length-1) return false;
+        if(start == arr.length-1) return true;
+        if(cycle[start]) return false;
+        if(start >=0 && start <= cycle.length-1) cycle[start] = true;
+        boolean ans = false;
+        for(int i = start+1; i<= start + arr[start];i++){
+            ans = (ans || dfs(cycle,i,arr));
+            if(ans==true) return true;
+        }
+        return ans;
+    }
+}
