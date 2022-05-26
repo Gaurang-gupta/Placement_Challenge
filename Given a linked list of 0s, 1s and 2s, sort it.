@@ -2,47 +2,38 @@ class Solution
 {
     //Function to sort a linked list of 0s, 1s and 2s.
     static Node segregate(Node head){
-        Node nhead = null,zhead = null,ztail=null,ohead = null,otail=null, thead=null,ttail=null,p = head;
-        while(p!=null){
-            Node toAdd = new Node(p.data);
-            if(toAdd.data==0){
-                if(zhead==null) zhead=ztail=toAdd;
-                else{
-                    ztail.next=toAdd;
-                    ztail = toAdd;
-                }
-            }
-            else if(toAdd.data==1){
-                if(ohead==null) ohead=otail=toAdd;
-                else{
-                    otail.next=toAdd;
-                    otail = toAdd;
-                }
-            }
+        int z = 0, o = 0, t = 0;
+        Node temp = head;
+        while(temp!=null){
+            if(temp.data == 0) z++;
+            else if(temp.data == 1) o++;
+            else t++;
+            temp = temp.next;
+        }
+        Node nhead = null, ntail = null;
+        for(int i=0;i<z;i++){
+            Node toAdd = new Node(0);
+            if(nhead==null) nhead = ntail = toAdd;
             else {
-                if(thead==null) thead=ttail=toAdd;
-                else{
-                    ttail.next=toAdd;
-                    ttail = toAdd;
-                }
+                ntail.next = toAdd;
+                ntail = toAdd;
             }
-            p=p.next;
         }
-        if(zhead!=null && ohead!=null && otail!=null){
-            nhead=zhead;
-            ztail.next=ohead;
-            otail.next=thead;
+        for(int i=0;i<o;i++){
+            Node toAdd = new Node(1);
+            if(nhead==null) nhead = ntail = toAdd;
+            else {
+                ntail.next = toAdd;
+                ntail = toAdd;
+            }
         }
-        else if(ohead==null && zhead==null){
-            nhead = thead;
-        }
-        else if(zhead==null){
-            nhead = ohead;
-            otail.next=thead;
-        }
-        else if(ohead==null){
-            nhead = zhead;
-            ztail.next = thead;
+        for(int i=0;i<t;i++){
+            Node toAdd = new Node(2);
+            if(nhead==null) nhead = ntail = toAdd;
+            else {
+                ntail.next = toAdd;
+                ntail = toAdd;
+            }
         }
         return nhead;
     }
