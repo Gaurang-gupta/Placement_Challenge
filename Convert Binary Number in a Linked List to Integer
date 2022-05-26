@@ -1,0 +1,27 @@
+class Solution {
+    public ListNode reverse(ListNode head){
+        ListNode prev = null,curr = head,next = head.next;
+        while(curr!=null){
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            if(next!=null) next = next.next;
+        }
+        head = prev;
+        return head;
+    }
+    public int getDecimalValue(ListNode head) {
+        // if(head==null) return head;
+        if(head.next==null) return head.val;
+        head = reverse(head);
+        int c = 0;
+        int ans = 0;
+        ListNode temp = head;
+        while(temp!=null){
+            ans+= (int)(temp.val * Math.pow(2,c));
+            c++;
+            temp = temp.next;
+        }
+        return ans;
+    }
+}
