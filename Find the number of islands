@@ -1,0 +1,70 @@
+class Solution {
+    // Function to find the number of islands.
+    public int numIslands(char[][] grid) {
+        int n = grid.length, m=grid[0].length, ans = 0;
+        boolean[][] vis = new boolean[n][m];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]=='1' && !vis[i][j]){
+                    ans++;
+                    dfs(grid, i, j, vis);
+                }
+            }
+        }
+        return ans;
+    }
+    
+    public void dfs(char[][] grid, int i,int j, boolean vis[][]){
+        if(!vis[i][j]){
+            Stack<Pair> s = new Stack<>();
+            s.push(new Pair(i,j));
+            vis[i][j] = true;
+            int n = grid.length, m=grid[0].length;
+            while(!s.isEmpty()){
+                Pair p = s.pop();
+                if(p.i-1>=0 && p.j-1>=0 && !vis[p.i-1][p.j-1] && grid[p.i-1][p.j-1] == '1'){
+                    vis[p.i-1][p.j-1] = true;
+                    s.push(new Pair(p.i-1, p.j-1));
+                }
+                if(p.i-1>=0 && !vis[p.i-1][p.j] && grid[p.i-1][p.j] == '1'){
+                    vis[p.i-1][p.j] = true;
+                    s.push(new Pair(p.i-1, p.j));
+                }
+                if(p.i-1>=0 && p.j+1<m && !vis[p.i-1][p.j+1] && grid[p.i-1][p.j+1] == '1'){
+                    vis[p.i-1][p.j+1] = true;
+                    s.push(new Pair(p.i-1, p.j+1));
+                }
+                
+                if(p.j-1>=0 && !vis[p.i][p.j-1] && grid[p.i][p.j-1] == '1'){
+                    vis[p.i][p.j-1] = true;
+                    s.push(new Pair(p.i, p.j-1));
+                }
+                if(p.j+1<m && !vis[p.i][p.j+1] && grid[p.i][p.j+1] == '1'){
+                    vis[p.i][p.j+1] = true;
+                    s.push(new Pair(p.i, p.j+1));
+                }
+                
+                if(p.i+1 < n && p.j-1 >= 0 && !vis[p.i+1][p.j-1] && grid[p.i+1][p.j-1] == '1'){
+                    vis[p.i+1][p.j-1] = true;
+                    s.push(new Pair(p.i+1, p.j-1));
+                }
+                if(p.i+1 < n && !vis[p.i+1][p.j] && grid[p.i+1][p.j] == '1'){
+                    vis[p.i+1][p.j] = true;
+                    s.push(new Pair(p.i+1, p.j));
+                }
+                if(p.i+1 < n && p.j+1 < m && !vis[p.i+1][p.j+1] && grid[p.i+1][p.j+1] == '1'){
+                    vis[p.i+1][p.j+1] = true;
+                    s.push(new Pair(p.i+1, p.j+1));
+                }
+            }
+        }
+    }
+}
+
+class Pair{
+    int i, j;
+    Pair(int i, int j){
+        this.i = i;
+        this.j = j;
+    }
+}
