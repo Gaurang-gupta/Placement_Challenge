@@ -1,0 +1,45 @@
+class Solution {
+    public ListNode sortList(ListNode head) {
+        return mergeSort(head);
+    }
+    
+    public ListNode sortedList(ListNode left, ListNode right){
+        if(left == null) return right;
+        if(right==null) return left;
+        
+        ListNode result = null;
+        if(left.val <= right.val){
+            result = left;
+            result.next = sortedList(left.next, right);
+        }
+        else {
+            result = right;
+            result.next = sortedList(left, right.next);
+        }
+        return result;
+    }
+    
+    public ListNode mergeSort(ListNode head){
+        if(head==null || head.next==null) return head;
+        
+        ListNode middle = getMiddle(head);
+        ListNode nextOfMiddle = middle.next;
+        
+        middle.next = null;
+        ListNode left = mergeSort(head);
+        ListNode right = mergeSort(nextOfMiddle);
+        
+        ListNode list = sortedList(left, right);
+        return list;
+    }
+    
+    public ListNode getMiddle(ListNode head){
+        ListNode h = head;
+        ListNode slow = head, fast = head;
+        while(fast.next!=null && fast.next.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+}
