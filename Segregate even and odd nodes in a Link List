@@ -1,0 +1,37 @@
+class Solution{
+    Node divide(int N, Node head){
+        if(head==null || head.next==null) return head;
+        ArrayList<Integer> al = new ArrayList<>();
+        while(head!=null && head.data%2!=0){
+            al.add(head.data);
+            head = head.next;
+        }
+        if(head==null){
+            Node newL = null, newT = null;
+            for(int i=0;i<al.size();i++){
+                Node toAdd = new Node(al.get(i));
+                if(newL == null){
+                    newL = newT = toAdd;
+                } else {
+                    newT.next = toAdd;
+                    newT = toAdd;
+                }
+            }
+            return newL;
+        }
+        Node q = head, p = head.next;
+        while(p!=null){
+            if(p.data%2==0) q = q.next;
+            else {
+                al.add(p.data);
+                q.next = p.next;
+            }
+            p = p.next;
+        }
+        for(int i=0;i<al.size();i++){
+            q.next = new Node(al.get(i));
+            q = q.next;
+        }
+        return head;
+    }
+}
