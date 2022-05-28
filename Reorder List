@@ -1,0 +1,73 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+        if(head==null || head.next==null) return;
+        ListNode newHead = null,newTail = null,p = head;
+        while(p!=null){
+            ListNode temp = new ListNode(p.val);
+            if(newHead==null){
+                newHead = temp;
+                newTail = temp;
+            }
+            else{
+                newTail.next = temp;
+                newTail = newTail.next;
+            }
+            p=p.next;
+        }
+        newHead = reverse(newHead);
+        int l = len(head);
+        p = head.next;
+        ListNode qn = newHead,pn = newHead.next, q = head,tail = null;
+        int flag = 0,c = 1;
+        while(c<l){
+            c+=1;
+            if(flag==0){
+                q.next = qn;
+                tail = qn;
+                flag = 1;
+                q = p;
+                if(p!=null) p = p.next;
+            }
+            else{
+                qn.next = q;
+                tail = q;
+                flag = 0;
+                qn = pn;
+                if(pn!=null) pn = pn.next;
+            }
+        }
+        if(tail!=null) tail.next=null;
+    }
+    
+    public int len(ListNode head){
+        int x = 0;
+        ListNode temp = head;
+        while(temp!=null){
+            x++;
+            temp = temp.next;
+        }
+        return x;
+    }
+    
+    public ListNode reverse(ListNode head){
+        ListNode prev=null,curr = head,next = head.next;
+        while(curr!=null){
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            if(next!=null) next = next.next;
+        }
+        head = prev;
+        return head;
+    }
+}
