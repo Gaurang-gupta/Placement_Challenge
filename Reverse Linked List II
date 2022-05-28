@@ -1,0 +1,75 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+if(head==null || head.next==null || left==right) return head;
+        if(right==length(head) && left==1){
+            return reverse(head);
+        }
+        ListNode leftHead;
+        int i = 1;
+        ListNode temp = head;
+        while(i < left){
+            temp = temp.next;
+            i++;
+        }
+        leftHead = temp;
+        while(i<right){
+            temp = temp.next;
+            i++;
+        }
+        if(leftHead!=head) {
+            ListNode secondHead = temp.next, firstTail = head;
+            while (firstTail != leftHead && firstTail.next != leftHead && firstTail.next != null)
+                firstTail = firstTail.next;
+            ListNode leftTail = leftHead;
+            while (leftTail.next != secondHead) leftTail = leftTail.next;
+            leftTail.next = null;
+            leftHead = reverse(leftHead);
+            leftTail = leftHead;
+            while (leftTail.next != null) leftTail = leftTail.next;
+            firstTail.next = leftHead;
+            leftTail.next = secondHead;
+            return head;
+        } else {
+            ListNode secondHead = temp.next;
+            temp.next = null;
+            leftHead = reverse(leftHead);
+            temp = leftHead;
+            while(temp.next!=null) temp = temp.next;
+            temp.next = secondHead;
+            head = leftHead;
+            return head;
+        }
+    }
+    
+    public int length(ListNode head){
+        int i = 0;
+        ListNode temp = head;
+        while(temp!=null){
+            i++;
+            temp = temp.next;
+        }
+        return i;
+    }
+    
+    public ListNode reverse(ListNode head){
+        ListNode prev = null, curr = head, next = head.next;
+        while(curr!=null){
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            if(next!=null) next = next.next;
+        }
+        head = prev;
+        return head;
+    }
+}
