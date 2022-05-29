@@ -1,0 +1,58 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        ArrayList<ListNode> al = new ArrayList<>();
+        for(int i=0;i<lists.length;i++) {
+            if(lists[i]!=null) al.add(lists[i]);
+        }
+        if(lists.length==0) return null;
+        if(lists.length==1) return lists[0];
+        int n = lists.length;
+        while(al.size()>1){
+            ListNode temp1 = al.remove(0);
+            ListNode temp2 = al.remove(0);
+            ListNode head = null,tail = null;
+            while(temp1!=null && temp2!=null){
+                int x = 0;
+                if(temp1.val<=temp2.val){
+                    x = temp1.val;
+                    temp1 = temp1.next;
+                }
+                else{
+                    x = temp2.val;
+                    temp2 = temp2.next;
+                }
+                ListNode toAdd = new ListNode(x);
+                if(head==tail && head==null){
+                    head = toAdd;
+                    tail = toAdd;
+                }
+                else{
+                    tail.next = toAdd;
+                    tail = tail.next;
+                }
+                
+            }
+            if(temp1!=null){
+                tail.next = temp1;
+                while(tail.next!=null) tail = tail.next;
+            }
+            if(temp2!=null){
+                tail.next = temp2;
+                while(tail.next!=null) tail = tail.next;
+            }
+            al.add(head);
+        }
+        if(al.size()==1) return al.get(0);
+        return null;
+    }
+}
