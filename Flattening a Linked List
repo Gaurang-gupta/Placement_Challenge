@@ -1,0 +1,55 @@
+class GfG{
+    Node flatten(Node root){
+        if(root==null || root.next==null) return root;
+	    Node q=root,p=root.next;
+	    while(p!=null){
+	        Node tempq = q;
+	        while(tempq.bottom!=null) tempq=tempq.bottom;
+	        tempq.bottom = p;
+	        q.next=null;
+	        q=p;
+	        p=p.next;
+	    }
+	    Node res = mergeSort(root);
+	    root = res;
+	    return root;
+    }
+    Node getMiddle(Node head){
+        if(head==null) return head;
+        Node slow = head,fast=head;
+        while(fast.bottom!=null && fast.bottom.bottom!=null){
+            slow=slow.bottom;
+            fast=fast.bottom.bottom;
+        }
+        return slow;
+    }
+    Node mergeSort(Node head){
+        if(head==null || head.bottom==null) return head;
+        
+        Node middle = getMiddle(head);
+        Node nextOfMiddle = middle.bottom;
+        
+        middle.bottom=null;
+        
+        Node left = mergeSort(head);
+        Node right = mergeSort(nextOfMiddle);
+        Node sortedList = sortedMerge(left,right);
+        
+        return sortedList;
+    }
+    Node sortedMerge(Node a,Node b){
+        Node result = null;
+        if(a==null) return b;
+        if(b==null) return a;
+        
+        if(a.data<=b.data){
+            result = a;
+            result.bottom = sortedMerge(a.bottom,b);
+        }
+        else{
+            result = b;
+            result.bottom = sortedMerge(a,b.bottom);
+        }
+        return result;
+    }
+}
