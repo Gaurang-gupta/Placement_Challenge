@@ -1,0 +1,51 @@
+class gfg {
+    Node reorderlist(Node head) {
+        if(head==null) return head;
+        int len = length(head);
+        if(len<=1) return head;
+        int mid = 0;
+        if(len%2==0) mid = len/2;
+        else mid = len/2 + 1;
+        int i = 1;
+        Node temp = head;
+        while(temp!=null && i<mid){
+            i++;
+            temp = temp.next;
+        }
+        Node secondHead = temp.next;
+        temp.next = null;
+        secondHead = reverse(secondHead);
+        temp = head;
+        while(temp!=null && secondHead!=null){
+            Node toAdd = new Node(secondHead.data);
+            Node t = temp.next;
+            temp.next = toAdd;
+            toAdd.next = t;
+            secondHead = secondHead.next;
+            if(temp.next!=null) temp = temp.next.next;
+        }
+        return head;
+    }
+    
+    Node reverse(Node head){
+        Node prev = null, curr=head, next = head.next;
+        while(curr!=null){
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            if(next!=null) next = next.next;
+        }
+        head = prev;
+        return head;
+    }
+    
+    int length(Node head){
+        int i = 0;
+        Node temp = head;
+        while(temp!=null){
+            i++;
+            temp = temp.next;
+        }
+        return i;
+    }
+}
