@@ -1,0 +1,22 @@
+//Function to insert string into TRIE.
+static void insert(TrieNode root, String key) {
+    TrieNode temp = root;
+    for(char ch: key.toCharArray()){
+        if(temp.children[ch - 'a']==null){
+            temp.children[ch - 'a'] = new TrieNode();
+        }
+        temp = temp.children[ch - 'a'];
+    }
+    temp.isEndOfWord = true;
+}
+
+//Function to use TRIE data structure and search the given string.
+static boolean search(TrieNode root, String key){
+    TrieNode temp = root;
+    for(char ch: key.toCharArray()){
+        if(temp.children[ch-'a'] == null) return false;
+        temp = temp.children[ch - 'a'];
+    }
+    
+    return temp.isEndOfWord;
+}
