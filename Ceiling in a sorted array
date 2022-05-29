@@ -1,0 +1,17 @@
+class Solution{
+  public int ceiling(int[] nums, int ceil){
+    int start = 0, end = nums.length() - 1, ans = Integer.MAX_VALUE;
+    while(start <= end){
+      int mid = start + (end - start)/2;
+      if(nums[mid] < ceil){
+        start = mid + 1;
+      }
+      else{
+        ans = nums[mid];
+        end = mid - 1;
+      }
+    }
+    if(ans==Integer.MAX_VALUE) return -1;
+    return ans;
+  }
+}
